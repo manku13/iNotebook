@@ -14,12 +14,11 @@ const getNotes = async () => {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjY1YzAzZjg0YzY5YzU0OGM2YTY2MzhmIn0sImlhdCI6MTcxNzMwNjM4NH0.aBoFj98yftuk64MDvEoyC3py1W5hsPpA7Lv065F4gyk"
+      "auth-token": localStorage.getItem("token")
     },
 
   });
   const json = await response.json()
-  console.log(json)
   setNotes(json)
 }
 
@@ -30,13 +29,12 @@ const addNote = async (title, description, tags) => {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjY1YzAzZjg0YzY5YzU0OGM2YTY2MzhmIn0sImlhdCI6MTcxNzMwNjM4NH0.aBoFj98yftuk64MDvEoyC3py1W5hsPpA7Lv065F4gyk"
+      "auth-token": localStorage.getItem("token")
     },
     body: JSON.stringify({title, description, tags})
   });
   const data = await response.json()
   setNotes(notes.concat(data))
-  console.log("Adding a new note" + data)
 }
 
 // Delete a Note 
@@ -50,9 +48,7 @@ const deleteNote = async (id) => {
     }
   });
   const json = await response.json()
-  console.log(json)
   
-  console.log("Deleted Note with id : " + id)
   const newNote = notes.filter((note) => {return note._id !== id})
   setNotes(newNote)
 }
@@ -64,12 +60,11 @@ const editNote = async (id, title, description, tags) => {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
-      "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjY1YzAzZjg0YzY5YzU0OGM2YTY2MzhmIn0sImlhdCI6MTcxNzMwNjM4NH0.aBoFj98yftuk64MDvEoyC3py1W5hsPpA7Lv065F4gyk"
+      "auth-token": localStorage.getItem("token")
     },
     body: JSON.stringify({title, description, tags})
   });
   const json = await response.json()
-  console.log("Updated Note " + json)
   let newNote = JSON.parse(JSON.stringify(notes))
 
   // For cient side
